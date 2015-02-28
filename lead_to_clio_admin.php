@@ -4,7 +4,9 @@
 	$redirect = "http://".$referer.$script;
 	$clio_source = $_SERVER['SERVER_NAME'];
 	$admin_page = $_SERVER['SCRIPT_NAME'];
-	if($clio_auth = $_GET['clio_auth']) {
+
+	if( isset( $_GET['clio_auth'] ) ){
+		$clio_auth = $_GET['clio_auth'];
 		update_option('clio_source', $clio_source);
 		update_option('casewave_account_id', $_GET['casewave_account_id']);
 		echo "<div class='updated'><p><strong>";
@@ -12,9 +14,10 @@
 		echo"</strong></p></div>";
 	}
 	else {
+		$clio_auth = false;
 		$casewave_account_id = get_option('casewave_account_id');
 	}
-	if($_GET['casewave_account_id']){
+	if( isset( $_GET['casewave_account_id'] ) ){
 		$casewave_account_id = $_GET['casewave_account_id'];
 	}
 	if($casewave_account_id){
@@ -27,7 +30,7 @@
 			$clio_auth = true;
 		}
 	}
-	if($_POST['clear_clio']=='Y'){
+	if( isset($_POST['clear_clio']) && $_POST['clear_clio']=='Y'){
 		delete_option('clio_source');
 	}
 ?>
@@ -49,7 +52,7 @@
 		"state" => $state_array
   	);
 	$request_to = $url . '?' . http_build_query($params);
-	if(!$clio_auth || $_POST['clear_clio']=='Y'){
+	if(!$clio_auth || ( isset( $_POST['clear_clio'] ) && $_POST['clear_clio']=='Y' )){
 	?>
 				<form name="lead_to_clio_form" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
 				<input type="hidden" name="lead_to_clio_hidden" value="Y">

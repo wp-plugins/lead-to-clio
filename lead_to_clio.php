@@ -28,29 +28,29 @@
 	}
 	add_action( 'wp_enqueue_scripts', 'clio_js' ); 
 	function add_clio_form($content){
+		$added_content ="";
 		if(is_single()){
-			if($_COOKIE['clio_test'] == 1234){
+			if( isset($_COOKIE['clio_test']) && $_COOKIE['clio_test'] == 1234){
 				$added_content = "
 			<div id='lead_to_clio'>
 				Former Client	
 			</div>";
 			}
 			else{
-				if($_GET['cliolead_contact']=='true'){
+				if( isset($_GET['cliolead_contact']) && $_GET['cliolead_contact']=='true'){
 					$added_content = "			<div id='lead_to_clio_reply'>One of our lawyers will be in touch with you soon!</div>";
 				}
-				elseif($_GET['cliolead_contact']=='false'){
+				elseif( isset( $_GET['cliolead_contact']) && $_GET['cliolead_contact']=='false'){
 					$added_content = "			<div id='lead_to_clio_reply'>We weren't able to take care of your request. Please call us.</div>";
 				}
 				else{
-//print_r($_SERVER);
-if(!preg_match("/\?/",$_SERVER['REQUEST_URI'])){
-$url_append = $_SERVER['REQUEST_URI']."?";
-}
-else{
-$url_append = $_SERVER['REQUEST_URI'];
-}
-					$redirect_address = $_SERVER['HTTP_HOST'].$url_append;
+				if(!preg_match("/\?/",$_SERVER['REQUEST_URI'])){
+					$url_append = $_SERVER['REQUEST_URI']."?";
+				}
+				else{
+					$url_append = $_SERVER['REQUEST_URI'];
+				}
+				$redirect_address = $_SERVER['HTTP_HOST'].$url_append;
 				$file_pre = plugins_url('lead_to_clio_submit.php', __FILE__);
 				$casewave_account_id = get_option('casewave_account_id');
 				$added_content = "
