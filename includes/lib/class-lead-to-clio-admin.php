@@ -196,14 +196,6 @@ class lead_to_clio_Admin extends lead_to_clio{
 				$html .= '<input id="' . $option_name . '" class="image_data_field" type="hidden" name="' . $option_name . '" value="' . $data . '"/><br/>' . "\n";
 			break;
 
-			case 'color':
-				?><div class="color-picker" style="position:relative;">
-			        <input type="text" name="<?php esc_attr_e( $option_name ); ?>" class="color" value="<?php esc_attr_e( $data ); ?>" />
-			        <div style="position:absolute;background:#FFF;z-index:99;border-radius:100%;" class="colorpicker"></div>
-			    </div>
-			    <?php
-			break;
-
 			case 'button':
 				$referer = $_SERVER['HTTP_HOST'];
 				$script = $_SERVER['SCRIPT_NAME'];
@@ -226,19 +218,14 @@ class lead_to_clio_Admin extends lead_to_clio{
 					"state" => $state_array
 			  	);
 				$request_to = $url . '?' . http_build_query($params);
-				if( !$this->clio_auth ||  isset( $_POST['delete_auth'] )): ?>
-					<label>
-						<?php _e("<a href='".$request_to."'>Authorize CaseWave's Lead-to-Clio to Add Contacts to Clio</a>"); ?>
-					</label>
-				<?php else: ?>
-					<label>
-						<?php _e("You Have authorized CaseWave's Lead-to-Clio to Add Contacts to Clio"); ?>
-					</label>
-					<?php echo "<br><a class='button' href='/wp-admin/options-general.php?page=lead-to-clio-admin&delete_auth=true'>Delete Authorization</a>";	?>
-			    <?php endif;
+				if( !$this->clio_auth ||  isset( $_POST['delete_auth'] )){
+					echo "<label><a href='".$request_to."'>Authorize CaseWave's Lead-to-Clio to Add Contacts to Clio</a></label>";
+				}else{
+					echo "<label>You Have authorized CaseWave's Lead-to-Clio to Add Contacts to Clio</label>
+					<br><a class='button' href='/wp-admin/options-general.php?page=lead-to-clio-admin&delete_auth=true'>Delete Authorization</a>";
+			    }
+
 			break;
-
-
 		}
 
 		switch( $field['type'] ) {

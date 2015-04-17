@@ -133,12 +133,12 @@ class lead_to_clio {
 		$this->load_plugin_textdomain();
 		add_action( 'init', array( $this, 'load_localisation' ), 0 );
 
-		add_action( 'post_updated', array( $this, 'save_page_meta' ), 10, 1 );
+		add_action( 'post_updated', array( $this, 'save_page_meta' ), 10, 1 ); 
 
 	} // End __construct ()
 	
 	function ltc_add_my_stylesheet() {
-	    wp_register_style( 'ltc-style', plugins_url('../assets/css/lead_to_clio.css', __FILE__) );
+	    wp_register_style( 'ltc-style', plugins_url('../assets/css/frontend.css', __FILE__) );
 	    wp_enqueue_style( 'ltc-style',9999 );
 		wp_register_script( 'ltc-script', plugins_url( '../assets/js/frontend.js', __FILE__ ) );
 		wp_enqueue_script( 'ltc-script',9999 );
@@ -153,13 +153,6 @@ class lead_to_clio {
 		else{
 			update_post_meta( $post_ID, 'lead_to_clio_add_to_page', 'off' );	
 		}	
-	}
-
-	public function customCallback( $input ){
-	//print_r($input);
-	//echo $input;
-	//echo "INPUT";
-	return $input;
 	}
 
 	/**
@@ -282,11 +275,7 @@ class lead_to_clio {
 	 * @return  void
 	 */
 	public function enqueue_scripts () {
-		wp_register_script( $this->_token . '-lead_to_clio', esc_url( $this->assets_url ) . 'js/lead_to_clio' . $this->script_suffix . '.js', array( 'jquery' ), $this->_version ,  ' . $this->eggLoader_in_footer() . ');
-		wp_enqueue_script( $this->_token . '-lead_to_clio' );
-		
-		wp_register_script( $this->_token . '-eggLoader', esc_url( $this->assets_url ) . 'js/eggLoader' . $this->script_suffix . '.js', array( 'jquery' ), $this->_version , ' . $this->eggLoader_in_footer() . ' );
-		wp_enqueue_script( $this->_token . '-eggLoader' );
+	
 	} // End enqueue_scripts ()
 
 	/**
@@ -379,7 +368,7 @@ class lead_to_clio {
 	 */
 	public function install () {
 		$this->_log_version_number();
-		$this->_log_defaults();
+//		$this->_log_defaults();
 	} // End install ()
 
 	/**
